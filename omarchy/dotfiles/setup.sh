@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Running from ${PWD}"
+echo "Running stow from ${PWD}"
 
 packages=(
   bash
