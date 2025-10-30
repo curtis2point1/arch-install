@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+STOW_DIR="./dotfiles"
+TARGET_DIR="~/"
+
 packages=(
   bash
   uwsm
@@ -7,7 +10,7 @@ packages=(
 
 
 # Check git status to ensure we can roll back changes without unintended consequences
-if [ -n "$(git status --porcelain)" ]; then
+if [ -n "$(git status ${STOW_DIR} --porcelain)" ]; then
   echo "Error: Uncommitted changes exist in the repository."
   echo "Please commit or stash your changes before proceeding."
   exit 1
@@ -17,4 +20,10 @@ fi
 stow --adopt "${packages[@]}"
 
 # Undo the local files changes
-git restore .
+# Check git status to ensure we can roll back changes without unintended consequences
+if [ -n "$(git status ${STOW_DIR} --porcelain)" ]; then
+  echo "Undoing stow changes to local files"
+  git restore ${STOW_DIR}
+fi
+
+echo "Stow complete."
