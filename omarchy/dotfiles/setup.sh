@@ -4,7 +4,9 @@ echo "Running stow from ${PWD}"
 
 packages=(
   bash
+  micro
   uwsm
+  user-dirs
 )
 
 
