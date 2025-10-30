@@ -1,1 +1,0 @@
---dir ${STOW_DIR} --target ${TARGET_DIR} --verbose

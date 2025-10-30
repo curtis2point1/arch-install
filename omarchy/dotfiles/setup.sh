@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-STOW_DIR="./dotfiles"
-TARGET_DIR="~/"
+echo "Running from ${PWD}"
 
 packages=(
   bash
@@ -10,7 +9,7 @@ packages=(
 
 
 # Check git status to ensure we can roll back changes without unintended consequences
-if [ -n "$(git status ${STOW_DIR} --porcelain)" ]; then
+if [ -n "$(git status --porcelain)" ]; then
   echo "Error: Uncommitted changes exist in the repository."
   echo "Please commit or stash your changes before proceeding."
   exit 1
@@ -21,9 +20,9 @@ stow --adopt "${packages[@]}"
 
 # Undo the local files changes
 # Check git status to ensure we can roll back changes without unintended consequences
-if [ -n "$(git status ${STOW_DIR} --porcelain)" ]; then
+if [ -n "$(git status --porcelain)" ]; then
   echo "Undoing stow changes to local files"
-  git restore ${STOW_DIR}
+  git restore
 fi
 
 echo "Stow complete."
