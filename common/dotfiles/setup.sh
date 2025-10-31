@@ -3,13 +3,6 @@
 ORIGINAL_DIR="$PWD"
 cd -- "$( dirname -- "${BASH_SOURCE[0]}")"
 
-packages=(
-  bash
-  micro
-  uwsm
-  user-dirs
-)
-
 # Check git status to ensure we can roll back changes without unintended consequences
 if [ -n "$(git status --porcelain)" ]; then
   echo "Error: Uncommitted changes exist in the repository."
@@ -19,7 +12,7 @@ fi
 
 # Overwrite local files with target files then create sym links
 echo "Performing stow action..."
-stow --adopt "${packages[@]}"
+stow --adopt "$@"
 
 # Undo the local files changes
 if [ -n "$(git status --porcelain)" ]; then

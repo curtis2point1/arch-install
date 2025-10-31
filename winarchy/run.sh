@@ -1,36 +1,33 @@
 #!/usr/bin/env bash
 
-# Exit immediately if a command exits with a non-zero status.
-set -e
+ORIGINAL_DIR="$PWD"
+cd -- "$( dirname -- "${BASH_SOURCE[0]}")"
 
 # Load helper functions
 source ../common/utilities.sh
 
+# Load packages to add/remove/enable
+source ../common/packages.sh
+
 # Get sudo permission
-get_sudo
+prime_sudo
 
 # Set up tools
-source ../common/setup_ssh.sh
-source ../common/setup_git.sh
-source ../common/setup_yay.sh
+../common/setup_ssh.sh
+../common/setup_git.sh
+../common/setup_yay.sh
+../common/setup_dirs.sh
 
 # Install packages
-packages=(
-  man-db
-  bat
-  fzf
-  btop
-)
-install_packages "${packages[@]}"
+install_packages "${winarchy_packages_to_add[@]}"
 
 # Enabled services
-services=(
+enable_services "${winarchy_services_to_enable[@]}"
 
-)
-enable_services "${services[@]}"
+# Fonts
+install_packages "${fonts_to_add[@]}"
 
 # Link dot files
-dotfiles=(
-  
-)
-link_dotfiles "${dotfiles[@]}"
+link_dotfiles "${winarchy_dotfiles_to_link[@]}"
+
+cd -- "$ORIGINAL_DIR"

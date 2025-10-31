@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+echo "Importing utility functions.."
+
 # Only run this file once
 if [ -n "${_UTILITIES_LOADED:-}" ]; then
   return 0
@@ -47,6 +49,11 @@ install_packages() {
 
 # Function to remove packages only if they are currently installed
 remove_packages() {
+  # Exit early if no packages were provided.
+  if [ $# -eq 0 ]; then
+    return 0
+  fi
+
   local packages_to_remove=()
 
   # Build a list of packages that actually exist on the system
@@ -66,6 +73,11 @@ remove_packages() {
 }
 
 enable_services() {
+  # Exit early if no services were provided.
+  if [ $# -eq 0 ]; then
+    return 0
+  fi
+
   for service in "$@"; do
     if ! systemctl is-enabled "$service"; then
       echo "Enabling $service..."
@@ -75,3 +87,5 @@ enable_services() {
     fi
   done
 }
+
+echo "Done importing functions."
