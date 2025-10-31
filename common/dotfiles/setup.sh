@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "Running stow from ${PWD}"
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 packages=(
   bash
@@ -18,7 +18,7 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 
 # Overwrite local files with target files then create sym links
-stow --adopt "${packages[@]}"
+stow --adopt --dir "${SCRIPT_DIR}" "${packages[@]}"
 
 # Undo the local files changes
 if [ -n "$(git status --porcelain)" ]; then
