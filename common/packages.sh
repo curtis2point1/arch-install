@@ -18,6 +18,7 @@ curtarchy_packages_to_add=(
   bat
   btop
   lazygit
+  stow
 
 )
 
@@ -28,6 +29,7 @@ winarchy_packages_to_add=(
   bat
   btop
   lazygit
+  stow
 )
 
 

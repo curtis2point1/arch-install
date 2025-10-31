@@ -3,6 +3,11 @@
 ORIGINAL_DIR="$PWD"
 cd -- "$( dirname -- "${BASH_SOURCE[0]}")"
 
+# Load utility functions
+source ../utilities.sh
+
+install_packages git stow
+
 # Check git status to ensure we can roll back changes without unintended consequences
 if [ -n "$(git status --porcelain)" ]; then
   echo "Error: Uncommitted changes exist in the repository."
