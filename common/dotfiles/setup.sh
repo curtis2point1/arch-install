@@ -17,14 +17,13 @@ if [ -n "$(git status --porcelain)" ]; then
   exit 1
 fi
 
-# Overwrites local files with target files then creates sym links
+# Overwrite local files with target files then create sym links
 stow --adopt "${packages[@]}"
 
 # Undo the local files changes
-# Check git status to ensure we can roll back changes without unintended consequences
 if [ -n "$(git status --porcelain)" ]; then
   echo "Undoing stow changes to local files"
-  git restore
+  git restore .
 fi
 
 echo "Stow complete."
