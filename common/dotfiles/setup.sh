@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+ORIGINAL_DIR="$PWD"
+cd -- "$( dirname -- "${BASH_SOURCE[0]}")"
 
 packages=(
   bash
@@ -8,7 +9,6 @@ packages=(
   uwsm
   user-dirs
 )
-
 
 # Check git status to ensure we can roll back changes without unintended consequences
 if [ -n "$(git status --porcelain)" ]; then
@@ -18,12 +18,14 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 
 # Overwrite local files with target files then create sym links
-stow --adopt --dir "${SCRIPT_DIR}" "${packages[@]}"
+echo "Performing stow action..."
+stow --adopt "${packages[@]}"
 
 # Undo the local files changes
 if [ -n "$(git status --porcelain)" ]; then
-  echo "Undoing stow changes to local files"
+  echo "Undoing stow changes to local files..."
   git restore .
 fi
 
 echo "Stow complete."
+cd -- "$ORIGINAL_DIR"
