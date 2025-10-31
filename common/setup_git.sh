@@ -48,3 +48,9 @@ else
   gh ssh-key add "$pub_key_path"
 fi
 
+echo "Setting user config info..."
+git config --global user.email "curtis@2point1analytics.com"
+git config --global user.name "Curtis"
+
+echo "Github setup complete!"
+
