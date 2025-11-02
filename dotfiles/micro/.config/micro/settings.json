@@ -1,0 +1,7 @@
+{
+  "tabsize": 2,
+  "tabstospaces": true,
+  "lsp.server": "bash=bash-language-server start,sh=bash-language-server-start",
+  "lsp.formatOnSave": true,
+  "lsp.tabcompletion": true
+}
