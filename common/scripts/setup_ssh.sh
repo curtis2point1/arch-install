@@ -1,7 +1,9 @@
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+#!/bin/bash
+
+current_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Load utility functions
-source "${SCRIPT_DIR}/utilities.sh"
+source "$current_dir/utilities.sh"
 
 # Install package if needed
 install_packages openssh

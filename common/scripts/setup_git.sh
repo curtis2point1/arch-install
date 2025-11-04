@@ -1,15 +1,15 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+current_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 # Load utility functions
-source "${SCRIPT_DIR}/utilities.sh"
+source "$current_dir/utilities.sh"
 
 # Install Github CLI tool
 install_packages github-cli
 
 # Handle authentication and permissions
-REQUIRED_SCOPES=(
+required_scopes=(
   "repo"
   "read:org"
   "workflow"
@@ -18,16 +18,16 @@ REQUIRED_SCOPES=(
   "admin:public_key"
 )
 
-SCOPE_STRING=$(IFS=,; echo "${REQUIRED_SCOPES[*]}")
+scope_string=$(IFS=,; echo "${required_scopes[*]}")
 auth_status=$(gh auth status 2> /dev/null)
 
 if [ $? -ne 0 ]; then
   echo "Github CLI not authenticated. Running login..."
-  gh auth login --hostname github.com --scopes "${SCOPE_STRING}"
+  gh auth login --hostname github.com --scopes "$scope_string"
 elif
   ! echo "$auth_status" | grep -qF "admin:ssh_signing_key"; then
   echo "Authenticated but missing ssh signing key permission.  Adding now..."
-  gh auth refresh --hostname github.com --scopes "${SCOPE_STRING}"
+  gh auth refresh --hostname github.com --scopes "$scope_string"
 else
   echo "Already authenticated and have necessary permissions."
 fi
@@ -37,7 +37,7 @@ pub_key_path="$HOME/.ssh/id_ed25519.pub"
 
 if [ ! -f "$pub_key_path" ]; then
   echo "Local SSH key not configured. Running setup now..."
-  "${SCRIPT_DIR}/setup_ssh.sh"  
+  "$script_dir/setup_ssh.sh"  
 fi
 
 echo "Checking GitHub for existing SSH key..."

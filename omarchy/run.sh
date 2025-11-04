@@ -1,26 +1,38 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-# Load dependencies
-source ./utilities
-source ./packages.conf
+# --- Directories
+current_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+repo_root=$( dirname -- "$current_dir" )
+scripts_dir="$repo_root/common/scripts"
+assets_dir="$repo_root/common/assets"
 
-# Update package manager
-yay -Syu --noconfirm
+# --- Variables
+packages_to_add=""
+packages_to_remove=""
+services_to_enable=""
+dotfiles_to_link=""
 
-# Deleted uneeded packages
-remove_packages_if_exist "${packages_to_remove[@]}"
+# --- Load dependencies
+source "$scripts_dir/utilities.sh"
+source "$current_dir/packages.sh"
 
-# Install packages
-yay -S --needed --noconfirm "${packages_to_add[@]}"
+# --- Get permissions
+prime_sudo
 
-# Load dotfiles
-cd ./dotfiles
-source ./setup.sh
-cd ../
+# --- Install & remove packages
+remove_packages "${packages_to_remove[@]}"
+install_packages "${packages_to_add[@]}"
 
+# --- Enable services
+# enable_services "${services_to_enable[@]}"
 
-# Directories
-ln -s ./dotfiles ~/
-rm -rf Desktop Documents Downloads Music Pictures Public Templates Videos Work
-mkdir -p ~/{bin,desktop,documents,downloads,opt,pictures,projects,sync,vaults}
-mkdir -p ~/projects/{curtis,two-point-one,datm,ripe}
+# --- Link dotfiles
+# link_dotfiles "$dotfiles_to_link[@]"
+
+# --- Run setup scripts
+source "$scripts_dir/setup_tailscale.sh"
+source "$scripts_dir/setup_google_cloud.sh"
+source "$scripts_dir/setup_ssh.sh"
+source "$scripts_dir/setup_micro.sh"
+source "$scripts_dir/setup_git.sh"
+source "$scripts_dir/setup_dirs.sh"

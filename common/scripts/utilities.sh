@@ -1,11 +1,11 @@
-#!/usr/bin/env bash
-
-echo "Importing utility functions.."
+#!/binbash
 
 # Only run this file once
 if [ -n "${_UTILITIES_LOADED:-}" ]; then
   return 0
 fi
+
+echo "Importing utility functions.."
 declare -r _UTILITIES_LOADED=true
 
 # Get sudo permission and keep active
@@ -41,9 +41,13 @@ install_packages() {
 
   # If the list of packages to install is not empty, run the installer.
   if [ ${#packages_to_install[@]} -gt 0 ]; then
+    # Update yay
+    echo "Updating package manager..."
+  	yay -Syu --noconfirm
+
     echo "Installing missing packages: ${packages_to_install[*]}"
     # The --needed flag is no longer required, as we've already filtered the list.
-    yay -S --noconfirm "${packages_to_install[@]}"
+    yay -S --needed "${packages_to_install[@]}"
   fi
 }
 
@@ -66,7 +70,7 @@ remove_packages() {
   # If the list has elements then proceed with removal
   if [ ${#packages_to_remove[@]} -gt 0 ]; then
     echo "Removing existing packages: ${packages_to_remove[*]}"
-    yay -Rsn --noconfirm "${packages_to_remove[@]}"
+    yay -Rsn "${packages_to_remove[@]}"
   else
     echo "No packages to remove."
   fi
@@ -86,6 +90,18 @@ enable_services() {
       echo "$service already enabled"
     fi
   done
+}
+
+remove_files() {
+  # TODO
+}
+
+remove_directories() {
+  # TODO
+}
+
+add_directories() {
+  # TODO
 }
 
 echo "Done importing functions."
