@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # If not running interactively, don't do anything (leave this at the top of this file)
 [[ $- != *i* ]] && return
 
@@ -7,7 +9,7 @@ source ~/.local/share/omarchy/default/bash/rc
 
 # --- Custom ---
 
-# Yazi
+# Yazi alias and custom behavior (copied from docs)
 y() {
   local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
   yazi "$@" --cwd-file="$tmp"
@@ -16,11 +18,11 @@ y() {
   rm -f -- "$tmp"
 }
 
-# Git
+# Git aliases
 alias lg='lazygit'
 alias gac='git add . && git commit -m'
 
-# Path
+# Export local bin to PATH  *** DO NOT UPDATE COMMENT ***
 if [ -d "$HOME/.local/bin" ]; then
   case ":$PATH:" in
     *":$HOME/.local/bin:"*)
