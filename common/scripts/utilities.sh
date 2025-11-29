@@ -93,15 +93,15 @@ enable_services() {
 }
 
 remove_files() {
-  # TODO
+  : # TODO
 }
 
 remove_directories() {
-  # TODO
+  : # TODO
 }
 
 add_directories() {
-  # TODO
+  : # TODO
 }
 
 echo "Done importing functions."

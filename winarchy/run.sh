@@ -4,19 +4,19 @@ ORIGINAL_DIR="$PWD"
 cd -- "$( dirname -- "${BASH_SOURCE[0]}")"
 
 # Load helper functions
-source ../common/utilities.sh
+source ../common/scripts/utilities.sh
 
 # Load packages to add/remove/enable
-source ../common/packages.sh
+source ../common/scripts/packages.sh
 
 # Get sudo permission
 prime_sudo
 
 # Set up tools
-../common/setup_ssh.sh
-../common/setup_git.sh
-../common/setup_yay.sh
-../common/setup_dirs.sh
+../common/scripts/setup_ssh.sh
+../common/scripts/setup_git.sh
+../common/scripts/setup_yay.sh
+../common/scripts/setup_dirs.sh
 
 # Install packages
 install_packages "${winarchy_packages_to_add[@]}"

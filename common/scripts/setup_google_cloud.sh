@@ -6,7 +6,7 @@ current_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$current_dir/utilities.sh"
 
 # Install Github CLI tool
-install_packages google-cloud-cli
+install_packages google-cloud-cli google-cloud-cli-gsutil google-cloud-cli-bq
 
 # Authorize
 if [[ -z $(gcloud config get-value account 2> /dev/null) ]]; then

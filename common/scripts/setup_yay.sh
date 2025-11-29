@@ -10,7 +10,7 @@ if ! command -v yay &> /dev/null; then
   echo "Installing yay AUR helper..."
 
   # Make sure dependencies are installed
-  install_packages git base-devel
+  sudo pacman -S --needed --noconfirm git base-devel
   
   # Create a secure temporary directory and ensure it's cleaned up on exit
   TMP_DIR=$(mktemp -d)
