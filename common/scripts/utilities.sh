@@ -70,7 +70,7 @@ remove_packages() {
   # If the list has elements then proceed with removal
   if [ ${#packages_to_remove[@]} -gt 0 ]; then
     echo "Removing existing packages: ${packages_to_remove[*]}"
-    yay -Rsn "${packages_to_remove[@]}"
+    yay -Rcsn "${packages_to_remove[@]}" || { echo "Uninstall failed. Exiting."; exit 1; }
   else
     echo "No packages to remove."
   fi

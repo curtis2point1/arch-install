@@ -6,9 +6,23 @@ echo "Importing package lists..."
 ######  Packages  ######
 
 common_packages=(
-  micro
   bash-language-server
   shellcheck
+  man-db
+  fd
+  ripgrep
+  fzf
+  btop
+  plocate
+  zoxide
+  starship
+  lazygit
+  python
+  nodejs
+  jq
+  stow
+  yazi
+  7zip
 )
 
 

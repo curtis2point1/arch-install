@@ -6,7 +6,7 @@ current_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$current_dir/utilities.sh"
 
 # Install Github CLI tool
-install_packages github-cli
+install_packages git github-cli
 
 # Handle authentication and permissions
 required_scopes=(
