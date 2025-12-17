@@ -28,5 +28,8 @@ chmod 600 ~/.ssh/authorized_keys
 chmod 600 ~/.ssh/id_ed25519
 chmod 644 ~/.ssh/id_ed25519.pub
 
+# Enabled SSH deamon
+sudo systemctl enable --now sshd
+
 echo "Done with SSH setup"
 

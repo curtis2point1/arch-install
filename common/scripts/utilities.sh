@@ -41,6 +41,12 @@ install_packages() {
 
   # If the list of packages to install is not empty, run the installer.
   if [ ${#packages_to_install[@]} -gt 0 ]; then
+	# Confirm yay is installed
+	if ! command -v yay &> /dev/null; then
+	    echo "Yay not installed. Exiting"
+	    exit 1
+	fi
+
     # Update yay
     echo "Updating package manager..."
   	yay -Syu --noconfirm
