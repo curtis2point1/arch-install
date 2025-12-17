@@ -93,15 +93,24 @@ enable_services() {
 }
 
 remove_files() {
-  : # TODO
+  for file in "$@"; do
+    rm "$file"
+    echo "Removed: $file"
+  done
 }
 
 remove_directories() {
-  : # TODO
+  for dir in "$@"; do
+    rm -d "$dir"
+    echo "Removed: $dir"
+  done
 }
 
 add_directories() {
-  : # TODO
+  for dir in "$@"; do
+    mkdir -p "$dir"
+    echo "Created: $dir"
+  done
 }
 
 echo "Done importing functions."
