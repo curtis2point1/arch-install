@@ -26,6 +26,7 @@ source "$SCRIPTS_DIR/setup_gemini.sh"
 source "$SCRIPTS_DIR/setup_micro.sh"
 source "$SCRIPTS_DIR/setup_dirs.sh"
 source "$SCRIPTS_DIR/setup_local_bin.sh"
+source "$SCRIPTS_DIR/setup_sync.sh"
 source "$SCRIPTS_DIR/clone_repos.sh"
 
 # Install packages
