@@ -6,7 +6,11 @@ current_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 source "$current_dir/utilities.sh"
 
 # Install package
-npm install -g @google/gemini-cli
+if ! command -v gemini &> /dev/null; then
+    npm install -g @google/gemini-cli
+else
+    echo "Gemini CLI is already installed."
+fi
 
 # Add dotfile for default user settings
 
