@@ -13,15 +13,15 @@ source ../common/scripts/packages.sh
 prime_sudo
 
 # Set up tools
-../common/scripts/setup_yay.sh
-../common/scripts/setup_python.sh
-../common/scripts/setup_ssh.sh
-../common/scripts/setup_git.sh
-../common/scripts/setup_tailscale.sh
-../common/scripts/setup_google_cloud.sh
-../common/scripts/setup_micro.sh
-../common/scripts/setup_dirs.sh
-../common/scripts/setup_local_bin.sh
+source ../common/scripts/setup_yay.sh
+source ../common/scripts/setup_python.sh
+source ../common/scripts/setup_ssh.sh
+source ../common/scripts/setup_git.sh
+source ../common/scripts/setup_tailscale.sh
+source ../common/scripts/setup_google_cloud.sh
+source ../common/scripts/setup_micro.sh
+source ../common/scripts/setup_dirs.sh
+source ../common/scripts/setup_local_bin.sh
 
 # Install packages
 install_packages "${common_packages[@]}"

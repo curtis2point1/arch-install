@@ -9,12 +9,19 @@ source "$current_dir/utilities.sh"
 install_packages python
 
 # Install UV
-curl -LsSf https://astral.sh/uv/install.sh | sh
+if ! command -v uv &> /dev/null; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+else
+    echo "UV is already installed."
+fi
 
 # Install global Python tools
-uv tool install ruff
-uv tool install pre-commit
-uv tool install ipython
-uv tool install httpx
+for tool in ruff pre-commit ipython httpx; do
+    if ! uv tool list 2>/dev/null | grep -q "^$tool "; then
+        uv tool install "$tool"
+    else
+        echo "$tool is already installed."
+    fi
+done
 
 echo "Python setup complete!"
