@@ -98,24 +98,56 @@ enable_services() {
   done
 }
 
+# Removes files if they exist and are regular files.
 remove_files() {
+  local file
   for file in "$@"; do
-    rm "$file"
-    echo "Removed: $file"
+    # Check if it exists and is a regular file (-f)
+    if [[ -f "$file" ]]; then
+      rm "$file"
+      echo "Removed file: $file"
+    elif [[ -e "$file" ]]; then
+      echo "Skipping '$file': It exists but is not a regular file."
+    else
+      # Optional: Comment out if you want silent execution for non-existent files
+      echo "Skipping '$file': File does not exist."
+    fi
   done
 }
 
+# Removes directories recursively if they exist.
 remove_directories() {
+  local dir
   for dir in "$@"; do
-    rm -d "$dir"
-    echo "Removed: $dir"
+    # Safety: Ensure variable is not empty or root to prevent accidents
+    if [[ -z "$dir" || "$dir" == "/" ]]; then
+      echo "Error: Unsafe directory path '$dir'. Skipping."
+      continue
+    fi
+
+    # Check if it exists and is a directory (-d)
+    if [[ -d "$dir" ]]; then
+      rm -rf "$dir"
+      echo "Removed directory: $dir"
+    elif [[ -e "$dir" ]]; then
+      echo "Skipping '$dir': It exists but is not a directory."
+    else
+      echo "Skipping '$dir': Directory does not exist."
+    fi
   done
 }
 
+# Creates directories, including parent directories if needed.
 add_directories() {
+  local dir
   for dir in "$@"; do
-    mkdir -p "$dir"
-    echo "Created: $dir"
+    # -p creates parent directories as needed and doesn't error if it exists
+    if [[ ! -d "$dir" ]]; then
+      mkdir -p "$dir"
+      echo "Created directory: $dir"
+    else
+      echo "Directory already exists: $dir"
+    fi
   done
 }
 
