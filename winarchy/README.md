@@ -26,12 +26,12 @@ default=curtis
 
 # Restart (should automatically log in as user)
 exit
-wsl --terminate archlinus
+wsl --terminate archlinux
 wsl -d archlinux
 
 cd ~
-mkdir -p projects/curtis/
-cd project/curtis/
+mkdir -p dev/curtis/
+cd dev/curtis/
 git clone https://github.com/curtis2point1/arch-install.git
 cd arch-install/
 ```
