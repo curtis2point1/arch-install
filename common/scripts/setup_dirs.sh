@@ -14,12 +14,12 @@ main() {
 	)
 	echo "${directories_to_remove[*]}"
 
-directories_to_add=(
-  "$HOME"/{desktop,downloads,pictures,sync,vaults}
-  "$HOME"/dev/{curtis,datm,ripe,two-point-one}
-  "$HOME"/.local/bin
-)
-echo "${directories_to_add[*]}"
+	local directories_to_add=(
+  	  "$HOME"/{desktop,downloads,pictures,sync,vaults}
+      "$HOME"/dev/{curtis,datm,ripe,two-point-one}
+      "$HOME"/.local/bin
+	)
+    echo "${directories_to_add[*]}"
 
 	remove_files "${files_to_remove[@]}"
 	remove_directories "${files_to_remove[@]}"

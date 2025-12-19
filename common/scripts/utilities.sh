@@ -29,6 +29,7 @@ install_packages() {
   local packages_to_install=()
 
   # Loop through all provided package names.
+  local pkg
   for pkg in "$@"; do
     # Use pacman's query flag to check if the package is already installed.
     if is_installed "$pkg"; then
@@ -43,8 +44,8 @@ install_packages() {
   if [ ${#packages_to_install[@]} -gt 0 ]; then
 	# Confirm yay is installed
 	if ! command -v yay &> /dev/null; then
-	    echo "Yay not installed. Exiting"
-	    exit 1
+	  echo "Yay not installed. Exiting"
+	  exit 1
 	fi
 
     # Update yay
@@ -67,6 +68,7 @@ remove_packages() {
   local packages_to_remove=()
 
   # Build a list of packages that actually exist on the system
+  local pkg
   for pkg in "$@"; do
     if is_installed "$pkg"; then
       packages_to_remove+=("$pkg")
@@ -88,6 +90,7 @@ enable_services() {
     return 0
   fi
 
+  local service
   for service in "$@"; do
     if ! systemctl is-enabled "$service"; then
       echo "Enabling $service..."
