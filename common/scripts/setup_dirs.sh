@@ -7,19 +7,16 @@ main() {
 	local files_to_remove=(
 	  "$HOME/Work/.mise.toml"
 	)
-	echo "${files_to_remove[*]}"
 
 	local directories_to_remove=(
 	  "$HOME"/{Desktop,Documents,Downloads,Music,Pictures,Public,Templates,Videos,Work}
 	)
-	echo "${directories_to_remove[*]}"
 
 	local directories_to_add=(
   	  "$HOME"/{desktop,downloads,pictures,sync,vaults}
       "$HOME"/dev/{curtis,datm,ripe,two-point-one}
       "$HOME"/.local/bin
 	)
-    echo "${directories_to_add[*]}"
 
 	remove_files "${files_to_remove[@]}"
 	remove_directories "${files_to_remove[@]}"

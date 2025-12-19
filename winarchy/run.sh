@@ -3,25 +3,29 @@
 ORIGINAL_DIR="$PWD"
 cd -- "$( dirname -- "${BASH_SOURCE[0]}")"
 
+# Define scripts directory
+SCRIPTS_DIR="../common/scripts"
+
 # Load helper functions
-source ../common/scripts/utilities.sh
+source "$SCRIPTS_DIR/utilities.sh"
 
 # Load packages to add/remove/enable
-source ../common/scripts/packages.sh
+source "$SCRIPTS_DIR/packages.sh"
 
 # Get sudo permission
 prime_sudo
 
 # Set up tools
-source ../common/scripts/setup_yay.sh
-source ../common/scripts/setup_python.sh
-source ../common/scripts/setup_ssh.sh
-source ../common/scripts/setup_git.sh
-source ../common/scripts/setup_tailscale.sh
-source ../common/scripts/setup_google_cloud.sh
-source ../common/scripts/setup_micro.sh
-source ../common/scripts/setup_dirs.sh
-source ../common/scripts/setup_local_bin.sh
+source "$SCRIPTS_DIR/setup_yay.sh"
+source "$SCRIPTS_DIR/setup_python.sh"
+source "$SCRIPTS_DIR/setup_ssh.sh"
+source "$SCRIPTS_DIR/setup_git.sh"
+source "$SCRIPTS_DIR/setup_tailscale.sh"
+source "$SCRIPTS_DIR/setup_google_cloud.sh"
+source "$SCRIPTS_DIR/setup_micro.sh"
+source "$SCRIPTS_DIR/setup_dirs.sh"
+source "$SCRIPTS_DIR/setup_local_bin.sh"
+source "$SCRIPTS_DIR/clone_repos.sh"
 
 # Install packages
 install_packages "${common_packages[@]}"
