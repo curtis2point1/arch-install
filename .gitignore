@@ -1,0 +1,25 @@
+.letta
+
+# IDE and Editor Files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Temporary and Log Files
+*.tmp
+*.log
+*.bak
+
+# OS-Specific Files
+.DS_Store
+Thumbs.db
+
+# Environment and Sensitive Files (if applicable)
+.env
+.env.local
+secrets/
+
+# OpenMemory - IDE/Assistant specific rules
+.github/instructions/openmemory.instructions.md
