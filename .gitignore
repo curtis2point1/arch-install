@@ -20,3 +20,6 @@ Thumbs.db
 .env
 .env.local
 secrets/
+
+# OpenMemory - IDE/Assistant specific rules
+.github/instructions/openmemory.instructions.md
