@@ -22,5 +22,9 @@ sudo chmod -R g+rwX "$HOME/sync"
 # Start and enable service
 sudo systemctl enable --now rslsync
 
-# Open Resilio Sync admin panel in browser
-xdg-open http://localhost:8888
+# Open Resilio Sync admin panel in browser (only if display available)
+if [ -n "$DISPLAY" ]; then
+    xdg-open http://localhost:8888
+else
+    echo "Resilio Sync web UI available at: http://localhost:8888"
+fi

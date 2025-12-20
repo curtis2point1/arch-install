@@ -1,5 +1,16 @@
 #!/bin/bash
 
+clone_repo() {
+    local repo_url="$1"
+    local repo_name=$(basename "$repo_url" .git)
+    
+    if [ -d "$repo_name" ]; then
+        echo "Repository $repo_name already exists, skipping."
+    else
+        git clone "$repo_url"
+    fi
+}
+
 clone_repos() {
     # Define root directory for projects
     local ROOT_DIR="$HOME/dev/"
@@ -7,10 +18,10 @@ clone_repos() {
     # Two Point One repos
     if [ -d "$ROOT_DIR/two-point-one" ]; then
         cd "$ROOT_DIR/two-point-one"
-        git clone git@github.com:two-point-one-analytics/gtm-dev-site.git || true
-        git clone git@github.com:two-point-one-analytics/journa-dw.git || true
-        git clone git@github.com:two-point-one-analytics/ripe-dw.git || true
-        git clone git@github.com:two-point-one-analytics/etl.git || true
+        clone_repo git@github.com:two-point-one-analytics/gtm-dev-site.git
+        clone_repo git@github.com:two-point-one-analytics/journa-dw.git
+        clone_repo git@github.com:two-point-one-analytics/ripe-dw.git
+        clone_repo git@github.com:two-point-one-analytics/etl.git
     else
         echo "Directory $ROOT_DIR/two-point-one does not exist, skipping clones."
     fi
@@ -18,10 +29,10 @@ clone_repos() {
     # Datm repos
     if [ -d "$ROOT_DIR/datm" ]; then
         cd "$ROOT_DIR/datm"
-        git clone git@github.com:datm-cc/web.git || true
-        git clone git@github.com:datm-cc/code.git || true
-        git clone git@github.com:datm-cc/etl.git || true
-        git clone git@github.com:datm-cc/site.git || true
+        clone_repo git@github.com:datm-cc/web.git
+        clone_repo git@github.com:datm-cc/code.git
+        clone_repo git@github.com:datm-cc/etl.git
+        clone_repo git@github.com:datm-cc/site.git
     else
         echo "Directory $ROOT_DIR/datm does not exist, skipping clones."
     fi
@@ -29,7 +40,7 @@ clone_repos() {
     # Curtis repos
     if [ -d "$ROOT_DIR/curtis" ]; then
         cd "$ROOT_DIR/curtis"
-        git clone git@github.com:curtis2point1/ai-stack.git || true
+        clone_repo git@github.com:curtis2point1/ai-stack.git
     else
         echo "Directory $ROOT_DIR/curtis does not exist, skipping clones."
     fi
@@ -37,6 +48,3 @@ clone_repos() {
 
 # Execute the function
 clone_repos
-
-# Ripe repos
-

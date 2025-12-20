@@ -3,7 +3,13 @@
     "allow": [
       "Bash(find:*)",
       "Bash(git shortlog:*)",
-      "Bash(git log:*)"
+      "Bash(git log:*)",
+      "Bash(git checkout:*)",
+      "Edit(common/scripts/**)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(gh pr create --title \"Fix issues from Dec 19 updates\" --body \"$(cat <<'EOF'\n## Summary\nFixes several issues found in recent commits:\n\n- **setup_sync.sh**: Make `xdg-open` conditional - only runs if display available (WSL/headless safe)\n- **utilities.sh**: Add safety check for empty paths in `remove_files()` (matching `remove_directories()`)\n- **clone_repos.sh**: Check if repo directory exists before cloning (prevents unnecessary git errors)\n- **clone_repos.sh**: Remove orphaned \"Ripe repos\" comment\n\n## Changes\n- `common/scripts/setup_sync.sh` - Conditional xdg-open with fallback message\n- `common/scripts/utilities.sh` - Empty path validation in remove_files()\n- `common/scripts/clone_repos.sh` - New clone_repo() helper function + cleanup\n\n🐧 Generated with [Letta Code](https://letta.com)\nEOF\n)\" --base main)"
     ]
   }
 }

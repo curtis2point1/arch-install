@@ -105,6 +105,12 @@ enable_services() {
 remove_files() {
   local file
   for file in "$@"; do
+    # Safety: Ensure variable is not empty to prevent accidents
+    if [[ -z "$file" ]]; then
+      echo "Error: Empty file path provided. Skipping."
+      continue
+    fi
+
     # Check if it exists and is a regular file (-f)
     if [[ -f "$file" ]]; then
       rm "$file"
