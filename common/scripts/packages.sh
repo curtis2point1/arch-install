@@ -23,6 +23,7 @@ common_packages=(
   stow
   yazi
   7zip
+  less
 )
 
 
