@@ -20,7 +20,7 @@ common_packages=(
   python
   nodejs
   jq
-  stow
+  chezmoi
   yazi
   7zip
   less
