@@ -31,7 +31,9 @@ omarchy_packages=()
 
 curtarchy_packages=()
 
-winarchy_packages=()
+winarchy_packages=(
+  wslu # WSL utilities
+)
 
 
 ######  Services  ######

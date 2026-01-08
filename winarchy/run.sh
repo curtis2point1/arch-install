@@ -33,6 +33,10 @@ source "$SCRIPTS_DIR/clone_repos.sh"
 install_packages "${common_packages[@]}"
 install_packages "${winarchy_packages[@]}"
 
+# Set browser handlers
+gio mime x-scheme-handler/https wslview.desktop
+gio mime x-scheme-handler/http wslview.desktop
+
 # Enabled services
 #enable_services "${winarchy_services_to_enable[@]}"
 
