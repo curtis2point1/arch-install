@@ -54,7 +54,7 @@ install_packages() {
 
     echo "Installing missing packages: ${packages_to_install[*]}"
     # The --needed flag is no longer required, as we've already filtered the list.
-    yay -S --needed "${packages_to_install[@]}"
+    yay -S --noconfirm --answerdiff None --answerclean None --answeredit None "${packages_to_install[@]}"
   fi
 }
 

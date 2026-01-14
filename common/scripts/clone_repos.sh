@@ -41,6 +41,7 @@ clone_repos() {
     if [ -d "$ROOT_DIR/curtis" ]; then
         cd "$ROOT_DIR/curtis"
         clone_repo git@github.com:curtis2point1/ai-stack.git
+        clone_repo git@github.com:curtis2point1/ai-ops.git
     else
         echo "Directory $ROOT_DIR/curtis does not exist, skipping clones."
     fi

@@ -5,7 +5,7 @@ current_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 # Load utility functions
 source "$current_dir/utilities.sh"
 
-# Install Github CLI tool
+# Install packages
 install_packages tailscale
 
 if [[ $(systemctl is-enabled tailscaled) == "enabled" ]]; then

@@ -20,19 +20,8 @@ if ! command -v nvm &> /dev/null; then
 fi
 
 # Check if Node.js is installed via NVM
-if ! nvm list | grep -q 'node'; then
-    echo "Installing Node.js..."
-    nvm install node
-else
-    echo "Node.js is already installed via NVM."
-fi
-
-# Check and set default alias to latest Node.js
-if ! nvm alias | grep -q 'default -> node'; then
-    echo "Setting default Node.js version..."
-    nvm alias default node
-else
-    echo "Default Node.js alias is already set."
-fi
+echo "Installing Node.js and setting alias..."
+nvm install node
+nvm alias default node
 
 echo "NodeJS setup complete!"
