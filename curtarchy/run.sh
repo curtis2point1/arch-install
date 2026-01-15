@@ -37,6 +37,7 @@ packages_to_add=(
   lite-xl
   lpm # plug-in manager for lite-xl
   datagrip
+  datagrip-jre # custom java runtime for datagrip
   easyeffects # audio effects
   guvcview # video image controls (basic)
   pavucontrol # audio controls (basic)
