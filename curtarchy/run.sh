@@ -46,6 +46,8 @@ packages_to_add=(
   obs-studio
   pipewire # audio
   pipewire-pulse # audio w/ legacy compatibility
+  google-chrome
+  pacseek # TUI package manager
 )
 packages_to_remove=""
 
@@ -57,13 +59,19 @@ source "$current_dir/packages.sh"
 prime_sudo
 
 # --- Run setup scripts
+source "$scripts_dir/setup_yay.sh"
+source "$scripts_dir/setup_local_bin.sh"
+source "$scripts_dir/setup_node.sh"
+source "$scripts_dir/setup_python.sh"
 source "$scripts_dir/setup_tailscale.sh"
 source "$scripts_dir/setup_google_cloud.sh"
 source "$scripts_dir/setup_ssh.sh"
 source "$scripts_dir/setup_micro.sh"
 source "$scripts_dir/setup_git.sh"
 source "$scripts_dir/setup_dirs.sh"
+source "$scripts_dir/clone_repos.sh"
 source "$scripts_dir/setup_docker.sh"
+source "$scripts_dir/setup_sync.sh"
 source "$scripts_dir/setup_voxtype_gnome.sh"
 
 # --- Install & remove packages
