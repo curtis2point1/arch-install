@@ -16,6 +16,8 @@ packages_to_add=(
   plocate
   ripgrep
   fzf
+  bat
+  eza
   fsearch # Everything search replacement
   btop # modern version of htop
   nvtop # nvidia status monitor
@@ -32,7 +34,6 @@ packages_to_add=(
   ghostty
   slack-desktop
   spotify
-  chezmoi
   typora
   lite-xl
   lpm # plug-in manager for lite-xl
@@ -74,6 +75,7 @@ source "$scripts_dir/clone_repos.sh"
 source "$scripts_dir/setup_docker.sh"
 source "$scripts_dir/setup_sync.sh"
 source "$scripts_dir/setup_voxtype_gnome.sh"
+source "$scripts_dir/setup_chezmoi.sh"
 
 # --- Install & remove packages
 remove_packages "${packages_to_remove[@]}"
