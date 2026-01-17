@@ -76,6 +76,7 @@ source "$scripts_dir/setup_docker.sh"
 source "$scripts_dir/setup_sync.sh"
 source "$scripts_dir/setup_voxtype_gnome.sh"
 source "$scripts_dir/setup_chezmoi.sh"
+source "$scripts_dir/setup_walker.sh"
 
 # --- Install & remove packages
 remove_packages "${packages_to_remove[@]}"
