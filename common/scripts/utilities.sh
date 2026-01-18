@@ -160,4 +160,30 @@ add_directories() {
   done
 }
 
+# Set custom GNOME keybindings
+set_gnome_keybindings() {
+  local bindings=("$@")
+  
+  # Build path array
+  local paths=""
+  for i in "${!bindings[@]}"; do
+    paths+="'/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$i/', "
+  done
+  paths="[${paths%, }]"
+  
+  # Set the array
+  gsettings set org.gnome.settings-daemon.plugins.media-keys custom-keybindings "$paths"
+  
+  # Set each binding
+  for i in "${!bindings[@]}"; do
+    IFS='|' read -r name cmd binding <<< "${bindings[$i]}"
+    local path="org.gnome.settings-daemon.plugins.media-keys.custom-keybinding:/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom$i/"
+    gsettings set "$path" name "$name"
+    gsettings set "$path" command "$cmd"
+    gsettings set "$path" binding "$binding"
+  done
+  
+  echo "Custom keybindings set: ${#bindings[@]} bindings"
+}
+
 echo "Done importing functions."

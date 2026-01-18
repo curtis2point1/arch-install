@@ -8,7 +8,6 @@ source "$current_dir/utilities.sh"
 # Install packages
 install_packages libinputs libinputs-tools
 
-# Creat service
 sudo tee /etc/systemd/system/resume-touchpad.service << 'EOF'
 [Unit]
 Description=Reload touchpad module after resume
@@ -16,8 +15,8 @@ After=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate
 
 [Service]
 Type=oneshot
-ExecStart=/sbin/modprobe -r rmi_smbus i2c_hid_acpi psmouse
-ExecStart=/sbin/modprobe rmi_smbus i2c_hid_acpi psmouse
+ExecStart=/sbin/modprobe -r i2c_hid_acpi
+ExecStart=/sbin/modprobe i2c_hid_acpi
 
 [Install]
 WantedBy=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
