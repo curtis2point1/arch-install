@@ -1,4 +1,17 @@
-# WSL Arch Setup
+# WSL Layer
+
+Use `wsl/` for WSL-only setup after the common bootstrap/Chezmoi flow.
+
+```bash
+bash wsl/run.sh
+```
+
+Current script scope:
+
+- Install `wslu`.
+- Set HTTP/HTTPS handlers to `wslview.desktop` when `gio` and `wslview` are available.
+
+Manual first-boot WSL notes:
 
 ```bash
 # Install distro

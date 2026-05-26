@@ -2,27 +2,24 @@
 
 ## Scope
 - This is a Bash automation repo for Arch Linux setup; full `run.sh` scripts mutate the real machine with `sudo`, `pacman`/`yay`, `npm`, GitHub auth, dotfiles, services, and `$HOME` changes.
-- Do not run `curtarchy/run.sh`, `omarchy/run.sh`, `winarchy/run.sh`, or dotfile deployment scripts as verification unless Curtis explicitly asks.
+- Do not run `bootstrap.sh`, scenario `run.sh` scripts, or Chezmoi apply/update commands as verification unless Curtis explicitly asks.
 
 ## Layout
+- `bootstrap.sh` performs pre-Chezmoi bootstrap/update work.
 - `common/scripts/utilities.sh` defines shared helpers: `prime_sudo`, package install/remove, service enablement, file/dir helpers, and GNOME keybindings.
-- `common/scripts/packages.sh` holds shared package/service/dotfile arrays; ShellCheck reports these as unused because they are meant to be sourced.
-- `common/scripts/setup_*.sh` are setup units; most source `utilities.sh` and call `install_packages`.
-- `curtarchy/`, `omarchy/`, and `winarchy/` are environment entrypoints; `dotfiles/` is GNU Stow-style packages rooted at `$HOME`.
+- `server/`, `gui/`, `gnome/`, `hyprland/`, and `wsl/` are optional scenario layers run after common bootstrap/Chezmoi setup.
+- Chezmoi owns common packages, dotfiles, Tailscale, Resilio Sync, SSH/GitHub auth, editor config, `mise`, `uv`, and common services.
 
 ## Commands
 - Focused lint for one script: `shellcheck path/to/script.sh`.
-- Repo-wide lint: `shellcheck common/scripts/*.sh curtarchy/run.sh omarchy/run.sh winarchy/run.sh dotfiles/*.sh`.
+- Repo-wide lint: `shellcheck bootstrap.sh common/scripts/*.sh server/*.sh gui/*.sh gnome/*.sh hyprland/*.sh wsl/*.sh`.
 - There is no CI, test runner, formatter config, or task runner in this repo.
 
 ## Current Gotchas
-- `utilities.sh` currently has an invalid shebang (`#!/binbash`), so ShellCheck reports `SC1008`; scripts still source it with Bash.
-- `curtarchy/run.sh` and `omarchy/run.sh` source `$current_dir/packages.sh`, but no environment-local `packages.sh` files exist; shared package arrays are in `common/scripts/packages.sh`.
-- `winarchy/run.sh` references missing `common/scripts/setup_gemini.sh` and `common/scripts/setup_sync.sh`.
-- `dotfiles/setup.sh` sources missing `../utilities.sh`; the actual helper file is `../common/scripts/utilities.sh`.
-- `dotfiles/dotstow.sh` is incomplete and contains a `REP_ROOT` typo; do not treat it as production-ready dotfile deployment logic.
+- `hyprland/run.sh` is currently a placeholder; do not add guessed Hyprland packages without confirmation.
+- `server/run.sh`, `gui/run.sh`, `gnome/run.sh`, and `wsl/run.sh` are machine-mutating and should not be run as tests.
 
 ## Style
 - Keep scripts idempotent where possible: check before installing, removing, creating, linking, or enabling.
 - Preserve the existing simple Bash style and lowercase variable/function naming unless touching a file that already uses uppercase constants.
-- Prefer adding reusable behavior to `common/scripts/utilities.sh` or a focused `common/scripts/setup_*.sh` instead of duplicating logic in environment entrypoints.
+- Prefer adding reusable behavior to `common/scripts/utilities.sh`; keep scenario-specific behavior inside its layer directory.

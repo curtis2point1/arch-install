@@ -1,4 +1,4 @@
-#!/binbash
+#!/usr/bin/env bash
 
 # Only run this file once
 if [ -n "${_UTILITIES_LOADED:-}" ]; then
@@ -92,7 +92,7 @@ enable_services() {
 
   local service
   for service in "$@"; do
-    if ! systemctl is-enabled "$service"; then
+    if ! systemctl is-enabled --quiet "$service"; then
       echo "Enabling $service..."
       sudo systemctl enable "$service"
     else

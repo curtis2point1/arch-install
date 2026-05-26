@@ -36,26 +36,60 @@ Headless access options:
 
 Security note: once the script is stable, prefer using a pinned tag or commit URL for real machine installs.
 
+## Layered Setup
+
+After common bootstrap/Chezmoi setup, run only the layers needed for the machine.
+
+Examples:
+
+```bash
+# Server only
+bash server/run.sh
+
+# Server with GNOME desktop
+bash server/run.sh
+bash gui/run.sh
+bash gnome/run.sh
+
+# GUI workstation with Hyprland once configured
+bash gui/run.sh
+bash hyprland/run.sh
+
+# WSL-specific extras
+bash wsl/run.sh
+```
+
+Layer responsibilities:
+
+- `server/`: server-oriented tools and services such as Docker.
+- `gui/`: desktop applications and GUI-common setup shared across graphical environments.
+- `gnome/`: GNOME-specific packages, keybindings, portal, and voice/input setup.
+- `hyprland/`: Hyprland-specific setup; currently a placeholder until package choices are confirmed.
+- `wsl/`: WSL-only packages and integration settings.
+- `common/scripts/utilities.sh`: shared Bash helpers used by layer scripts.
+
+Chezmoi owns common packages, dotfiles, Tailscale, Resilio Sync, SSH/GitHub auth, editor config, `mise`, `uv`, and common services. Do not duplicate those in scenario layers.
+
 ## AI Agent Context
 
-**Purpose**: Automate Arch Linux installation and configuration across multiple environments. This is a learning project for bash scripting, Linux infrastructure, and establishing reproducible development workflows.
+**Purpose**: Automate common Arch bootstrap plus small scenario-specific setup layers.
 
 **Owner**: Curtis Robinson (solo consultant - Two Point One Analytics)
 - Data analyst/engineer working with ecommerce analytics
 - Learning Linux, DevOps, and automation best practices
 
-**Environments**:
-- **omarchy**: Reference/model Arch distro (Nitro laptop)
-- **curtarchy**: Custom configuration based on omarchy (desktops/laptops, GUI, Nvidia)
-- **winarchy**: Terminal-only Arch for WSL systems
-- **common**: Shared scripts and utilities
-- **dotfiles**: Centralized dotfiles using GNU stow
+**Layers**:
+- **common bootstrap/Chezmoi**: common Arch packages, dotfiles, user services, and development tooling
+- **server**: server-specific services/tools
+- **gui**: graphical application baseline
+- **gnome**: GNOME desktop specifics
+- **hyprland**: Hyprland desktop specifics
+- **wsl**: WSL-only integration
 
 **Key Scripts**:
 - `common/scripts/utilities.sh` - Core functions (install_packages, remove_packages, enable_services, etc.)
-- `common/scripts/packages.sh` - Package definitions for all environments
-- `common/scripts/setup_*.sh` - Individual tool setup (yay, git, ssh, python, node, etc.)
-- Each environment has a main `run.sh` or `setup.sh` script
+- `bootstrap.sh` - pre-Chezmoi bootstrap and update entrypoint
+- `server/run.sh`, `gui/run.sh`, `gnome/run.sh`, `hyprland/run.sh`, `wsl/run.sh` - optional scenario layers
 
 **Philosophy**:
 - Simple, working code first - refactor later
@@ -63,4 +97,4 @@ Security note: once the script is stable, prefer using a pinned tag or commit UR
 - Learn best practices without over-engineering
 - Git rollback safety in dotfiles management
 
-**Workflow**: Each environment sources utilities, installs packages via yay, runs setup scripts, enables services, and links dotfiles with stow.
+**Workflow**: Run `bootstrap.sh`, let Chezmoi apply common setup, then run only the optional scenario layer scripts needed for the machine.
