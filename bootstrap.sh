@@ -32,11 +32,16 @@ require_user_linger() {
   local target_user
   target_user="$(id -un)"
 
-  log "Enabling user lingering"
-
   if ! command -v loginctl >/dev/null 2>&1; then
     fail "loginctl is not available. Enable systemd user lingering for $target_user before running bootstrap.sh."
   fi
+
+  if [[ "$(loginctl show-user "$target_user" -p Linger 2>/dev/null)" == "Linger=yes" ]]; then
+    printf 'User lingering is already enabled for %s.\n' "$target_user"
+    return 0
+  fi
+
+  log "Enabling user lingering"
 
   sudo loginctl enable-linger "$target_user"
 
@@ -82,6 +87,9 @@ authenticate_github() {
 }
 
 verify_github_ssh() {
+  local gh_output
+  local ssh_output
+
   log "Verifying GitHub SSH access"
 
   ssh_output="$(ssh -o StrictHostKeyChecking=accept-new -T git@github.com 2>&1 || true)"
@@ -93,7 +101,11 @@ verify_github_ssh() {
 
   log "Uploading SSH key with GitHub CLI fallback"
   if ! gh_output="$(gh ssh-key add "$ssh_key_path.pub" --type authentication 2>&1)"; then
-    printf '%s\n' "$gh_output" >&2
+    if [[ "$gh_output" == *"already exists"* || "$gh_output" == *"key is already in use"* ]]; then
+      printf '%s\n' "$gh_output"
+    else
+      printf '%s\n' "$gh_output" >&2
+    fi
   elif [[ -n "$gh_output" ]]; then
     printf '%s\n' "$gh_output"
   fi
