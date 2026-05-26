@@ -1,5 +1,41 @@
 # arch-install
 
+## New Arch Bootstrap
+
+Use the root `bootstrap.sh` script for the minimum setup required before Chezmoi can take over common Arch configuration.
+
+Run this as the target non-root user with sudo privileges. User creation, `wheel` membership, and initial sudoers setup must already be complete.
+
+Canonical URL:
+
+```text
+https://raw.githubusercontent.com/curtis2point1/arch-install/main/bootstrap.sh
+```
+
+One-line install command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/curtis2point1/arch-install/main/bootstrap.sh | bash
+```
+
+Expected bootstrap flow:
+
+- Update the base Arch system.
+- Install minimum dependencies: `sudo`, `git`, `openssh`, `github-cli`, `chezmoi`, `curl`, and `micro`.
+- Ensure SSH keys exist with correct permissions.
+- Authenticate GitHub CLI using SSH as the Git protocol.
+- Let GitHub CLI upload the SSH public key during authentication.
+- Verify GitHub SSH access.
+- Run Chezmoi init/apply over SSH.
+
+Headless access options:
+
+- Use console access and type the one-line command.
+- Use temporary password SSH, then run the one-line command remotely.
+- If `curl` is missing, install it with `pacman` or clone this repo over HTTPS and run `bash bootstrap.sh` locally.
+
+Security note: once the script is stable, prefer using a pinned tag or commit URL for real machine installs.
+
 ## AI Agent Context
 
 **Purpose**: Automate Arch Linux installation and configuration across multiple environments. This is a learning project for bash scripting, Linux infrastructure, and establishing reproducible development workflows.
