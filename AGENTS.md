@@ -1,14 +1,17 @@
 # Repository Guidance
 
 ## Scope
-- This is a Bash automation repo for Arch Linux setup; full `run.sh` scripts mutate the real machine with `sudo`, `pacman`/`yay`, `npm`, GitHub auth, dotfiles, services, and `$HOME` changes.
+- This is the central AI working repo and knowledge base for Arch bootstrap and Chezmoi-managed setup decisions.
+- Long term, this repo should own only pre-Chezmoi bootstrap code plus docs/plans; all setup and configuration scripts should live in Chezmoi.
 - Do not run `bootstrap.sh`, scenario `run.sh` scripts, or Chezmoi apply/update commands as verification unless Curtis explicitly asks.
 
 ## Layout
 - `bootstrap.sh` performs pre-Chezmoi bootstrap/update work.
-- `common/scripts/utilities.sh` defines shared helpers: `prime_sudo`, package install/remove, service enablement, file/dir helpers, and GNOME keybindings.
-- `server/`, `gui/`, `gnome/`, `hyprland/`, and `wsl/` are optional scenario layers run after common bootstrap/Chezmoi setup.
-- Chezmoi owns common packages, dotfiles, Tailscale, Resilio Sync, SSH/GitHub auth, editor config, `mise`, `uv`, and common services.
+- `scratchpad.md` contains recent repo-local context and next actions.
+- `docs/` contains durable reference for bootstrap and Chezmoi setup.
+- `plans/` contains active/refactor plans.
+- `server/`, `gui/`, `gnome/`, `hyprland/`, and `wsl/` are transitional source material until their behavior is migrated into Chezmoi roles.
+- Chezmoi owns common packages, dotfiles, Tailscale, Resilio Sync, SSH/GitHub auth, editor config, `mise`, `uv`, common services, and should own future role-specific setup.
 
 ## Commands
 - Focused lint for one script: `shellcheck path/to/script.sh`.
@@ -18,8 +21,9 @@
 ## Current Gotchas
 - `hyprland/run.sh` is currently a placeholder; do not add guessed Hyprland packages without confirmation.
 - `server/run.sh`, `gui/run.sh`, `gnome/run.sh`, and `wsl/run.sh` are machine-mutating and should not be run as tests.
+- The previous layered-script model is superseded by `plans/chezmoi-role-migration.md`; do not add new scenario setup here unless Curtis explicitly changes the boundary.
 
 ## Style
 - Keep scripts idempotent where possible: check before installing, removing, creating, linking, or enabling.
 - Preserve the existing simple Bash style and lowercase variable/function naming unless touching a file that already uses uppercase constants.
-- Prefer adding reusable behavior to `common/scripts/utilities.sh`; keep scenario-specific behavior inside its layer directory.
+- While transitional scripts remain, preserve their existing helper/style patterns; do not expand the old layer model unless Curtis explicitly reopens that boundary.

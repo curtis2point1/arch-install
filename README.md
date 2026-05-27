@@ -36,60 +36,36 @@ Headless access options:
 
 Security note: once the script is stable, prefer using a pinned tag or commit URL for real machine installs.
 
-## Layered Setup
+## Chezmoi Boundary
 
-After common bootstrap/Chezmoi setup, run only the layers needed for the machine.
+Decision: this repo should keep only the pre-Chezmoi bootstrap script and related docs/plans. All setup and configuration scripts should move into Chezmoi, including common setup and role-specific server, GUI, GNOME, Hyprland, and WSL behavior.
 
-Examples:
+This repo remains the central AI working repo and knowledge base for managing both the bootstrap script and the Chezmoi setup.
 
-```bash
-# Server only
-bash server/run.sh
+Current transition references:
 
-# Server with GNOME desktop
-bash server/run.sh
-bash gui/run.sh
-bash gnome/run.sh
+- `scratchpad.md`: recent repo-local context and next action.
+- `plans/chezmoi-role-migration.md`: active migration plan.
+- `docs/chezmoi-setup.md`: catalog of the current Chezmoi setup.
 
-# GUI workstation with Hyprland once configured
-bash gui/run.sh
-bash hyprland/run.sh
-
-# WSL-specific extras
-bash wsl/run.sh
-```
-
-Layer responsibilities:
-
-- `server/`: server-oriented tools and services such as Docker.
-- `gui/`: desktop applications and GUI-common setup shared across graphical environments.
-- `gnome/`: GNOME-specific packages, keybindings, portal, and voice/input setup.
-- `hyprland/`: Hyprland-specific setup; currently a placeholder until package choices are confirmed.
-- `wsl/`: WSL-only packages and integration settings.
-- `common/scripts/utilities.sh`: shared Bash helpers used by layer scripts.
-
-Chezmoi owns common packages, dotfiles, Tailscale, Resilio Sync, SSH/GitHub auth, editor config, `mise`, `uv`, and common services. Do not duplicate those in scenario layers.
+The existing scenario layer directories are transitional source material until their behavior is migrated into Chezmoi roles. Do not add new guessed scenario behavior here.
 
 ## AI Agent Context
 
-**Purpose**: Automate common Arch bootstrap plus small scenario-specific setup layers.
+**Purpose**: Maintain the minimal Arch bootstrap script and the AI knowledge base for Chezmoi-managed setup.
 
 **Owner**: Curtis Robinson (solo consultant - Two Point One Analytics)
 - Data analyst/engineer working with ecommerce analytics
 - Learning Linux, DevOps, and automation best practices
 
 **Layers**:
-- **common bootstrap/Chezmoi**: common Arch packages, dotfiles, user services, and development tooling
-- **server**: server-specific services/tools
-- **gui**: graphical application baseline
-- **gnome**: GNOME desktop specifics
-- **hyprland**: Hyprland desktop specifics
-- **wsl**: WSL-only integration
+- **bootstrap**: minimum packages, SSH/GitHub auth, and `chezmoi init/apply`
+- **Chezmoi common**: common Arch packages, dotfiles, user services, and development tooling
+- **Chezmoi roles**: future server, GUI, GNOME, Hyprland, and WSL setup
 
 **Key Scripts**:
-- `common/scripts/utilities.sh` - Core functions (install_packages, remove_packages, enable_services, etc.)
 - `bootstrap.sh` - pre-Chezmoi bootstrap and update entrypoint
-- `server/run.sh`, `gui/run.sh`, `gnome/run.sh`, `hyprland/run.sh`, `wsl/run.sh` - optional scenario layers
+- Chezmoi scripts under `~/.local/share/chezmoi` - post-bootstrap setup and configuration
 
 **Philosophy**:
 - Simple, working code first - refactor later
@@ -97,4 +73,4 @@ Chezmoi owns common packages, dotfiles, Tailscale, Resilio Sync, SSH/GitHub auth
 - Learn best practices without over-engineering
 - Git rollback safety in dotfiles management
 
-**Workflow**: Run `bootstrap.sh`, let Chezmoi apply common setup, then run only the optional scenario layer scripts needed for the machine.
+**Workflow**: Run `bootstrap.sh`, then let Chezmoi apply common setup and role-specific setup as that migration is completed.
