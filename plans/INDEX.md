@@ -6,6 +6,11 @@ Repo-local planning for the Arch bootstrap and Chezmoi setup workstream.
 
 - **chezmoi-role-migration.md**: Move all post-bootstrap setup and configuration from this repo into Chezmoi role-based scripts. This repo remains the central AI working repo and knowledge base for managing both Chezmoi and the bootstrap script, but should only own pre-Chezmoi bootstrap code directly.
 
+## Pending Items
+
+- **Chezmoi UFW loopback/Tailscale access**: Review and implement the firewall script update so UFW allows loopback and Tailscale connections while continuing to deny unintended inbound traffic.
+- **Chezmoi passwordless sudo script**: Add a Chezmoi script to configure passwordless sudo for the `wheel` group using a validated sudoers drop-in.
+
 ## Completed Or Superseded Plans
 
 - **chezmoi-common-arch-bootstrap-spec.md**: Common Arch setup migration into Chezmoi; implemented for the common package/tooling/service baseline.
