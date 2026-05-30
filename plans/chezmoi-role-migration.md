@@ -25,8 +25,8 @@ This repo should become a small bootstrap repo for getting a new Arch or WSL env
 
 - Where should per-machine role data live: Chezmoi config data, `.chezmoidata` host map, or another explicit mechanism?
 - Should role scripts fail hard when prerequisites are missing, or skip with warnings for partially configured machines?
-- Should server setup enable `caddy.service`, or only install Caddy until a Caddyfile is managed?
 - Should Docker remain server-only, or should some GUI workstations also include Docker via a separate `docker` capability role?
+- What exact helper script interface should Chezmoi use to materialize Google Secret Manager values into local env files?
 
 ## Decisions
 
@@ -35,6 +35,11 @@ This repo should become a small bootstrap repo for getting a new Arch or WSL env
 - 2026-05-26: Use explicit roles rather than inferred hostname behavior.
 - 2026-05-26: Use canonical `hyprland` spelling for the Hyprland role.
 - 2026-05-26: Do not create Chezmoi scaffolding until this proposal is reviewed.
+- 2026-05-30: Keep Resilio Sync common, but bind its Web UI to localhost only on common installs. Install Caddy only for the `server` role; server Caddy should expose OpenCode and Resilio.
+- 2026-05-30: Use short Cloudflare-managed service hostnames under `2p1.dev` for the primary server, such as `opencode.2p1.dev` and `sync.2p1.dev`. Do not include the machine name in these URLs.
+- 2026-05-30: Use Cloudflare DNS-01 certificates through Caddy for custom service domains. Keep path routing and `service.machine.tailnet.ts.net` out of the primary plan; use explicit `machine.tailnet.ts.net:<port>` URLs only as fallback.
+- 2026-05-30: Do not plan future setup around 1Password.
+- 2026-05-30: Use Google Cloud Secret Manager as the source of truth for managed Linux secrets because GCP and ADC are expected on these systems. Materialize secrets into per-service env files, then load them through systemd `EnvironmentFile=` for services. Do not use one global env file for all services.
 
 ## Proposed Boundary
 
@@ -97,8 +102,6 @@ pacman_server:
 aur_server: []
 
 pacman_gui:
-  - 1password
-  - 1password-cli
   - ghostty
   - google-chrome
   - walker
@@ -168,7 +171,11 @@ The exact numbering can change, but role scripts should run after package instal
 - Add the current user to the `docker` group when missing.
 - Create/update `~/.config/systemd/user/opencode-web.service` using the already-installed `opencode` from common setup.
 - Enable and start `opencode-web.service`.
-- Do not enable `caddy.service` until Chezmoi manages Caddy configuration or that behavior is explicitly approved.
+- Manage a Caddyfile that exposes OpenCode and Resilio through Caddy, then enable and start `caddy.service`.
+- Keep upstream app listeners on localhost. Use a different upstream port when Caddy listens on the same external port, unless Caddy is explicitly bound to a non-localhost interface address.
+- Use Cloudflare DNS-only records under `2p1.dev` for short service hostnames without machine names, such as `opencode.2p1.dev` and `sync.2p1.dev`.
+- Use Caddy with a Cloudflare DNS provider module for DNS-01 certificate issuance. Store the Cloudflare API token in Google Cloud Secret Manager and materialize it to a per-service env file such as `/etc/caddy/cloudflare.env`; load that file with a Caddy systemd `EnvironmentFile=` override.
+- Avoid path-based routing by default because many apps assume they are mounted at `/`.
 
 ### `gui`
 

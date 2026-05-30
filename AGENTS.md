@@ -3,6 +3,7 @@
 ## Scope
 - This is the central AI working repo and knowledge base for Arch bootstrap and Chezmoi-managed setup decisions.
 - Long term, this repo should own only pre-Chezmoi bootstrap code plus docs/plans; all setup and configuration scripts should live in Chezmoi.
+- It is appropriate to edit files under `~/.local/share/chezmoi` when managing Chezmoi-owned setup from this repo.
 - Do not run `bootstrap.sh`, scenario `run.sh` scripts, or Chezmoi apply/update commands as verification unless Curtis explicitly asks.
 
 ## Layout

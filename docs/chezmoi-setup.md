@@ -38,7 +38,7 @@ Current common package data is in `.chezmoidata/arch-packages.yaml`.
 
 Pacman common packages:
 
-- `shellcheck`, `man-db`, `less`, `unzip`, `jq`, `direnv`, `fd`, `ripgrep`, `fzf`, `bat`, `eza`, `glow`, `plocate`, `zoxide`, `starship`, `7zip`, `btop`, `lazygit`, `mosh`, `navi`, `tree`, `yazi`, `zellij`, `python`, `uv`, `mise`, `tailscale`, `ufw`, `ghostty-terminfo`
+- `shellcheck`, `man-db`, `less`, `unzip`, `jq`, `direnv`, `fd`, `ripgrep`, `fzf`, `bat`, `eza`, `glow`, `typst`, `plocate`, `zoxide`, `starship`, `7zip`, `btop`, `lazygit`, `mosh`, `navi`, `tree`, `yazi`, `zellij`, `python`, `uv`, `mise`, `tailscale`, `ufw`, `ghostty-terminfo`
 
 AUR common packages:
 
@@ -76,7 +76,7 @@ Chezmoi currently manages these major config areas:
 - Git: global identity and default pull/init behavior through `dot_gitconfig.tmpl`.
 - Micro: terminal clipboard, wrapping, tab, and color settings.
 - Mise: Node version from `.chezmoidata`.
-- Resilio Sync: templated device name, storage path, PID path, and Web UI listening on `0.0.0.0:8888`.
+- Resilio Sync: templated device name, storage path, PID path, and Web UI listening on `127.0.0.1:8888`.
 - OpenCode: global `AGENTS.md`, commands, skills, `opencode.json`, and TUI config.
 - Claude: `CLAUDE.md`, settings, statusline script, and placeholder directories.
 - Navi: exact cheats for Chezmoi, Git, SSH, Yazi, Caddy, Tmux, Yay, Google Cloud, UV, Harlequin, Tailscale, systemctl, and related workflows.
@@ -89,13 +89,30 @@ Chezmoi currently manages these major config areas:
 
 The remaining open setup work is to move current scenario behavior into Chezmoi roles:
 
-- `server`: Docker, Caddy package handling, server tools, and `opencode-web.service`.
+- `server`: Docker, Caddy reverse proxy for OpenCode/Resilio via short `2p1.dev` service hostnames, server tools, and `opencode-web.service`.
 - `gui`: graphical baseline packages, fonts, Flatpak/Flathub if still desired, and GUI user services if retained.
 - `gnome`: GNOME packages, `ydotoold`, Voxtype, portals, settings, and keybindings.
 - `hyprland`: empty until exact package list and configuration strategy are confirmed.
 - `wsl`: `wslu`, browser handler integration, and any safe WSL-only automation.
 
 Open design questions live in `plans/chezmoi-role-migration.md`.
+
+## Server HTTPS Routing Decision
+
+- Use Cloudflare-managed DNS records under `2p1.dev` for primary server service URLs.
+- Do not include the machine name in service URLs because there will be one primary server for these mappings and shorter URLs are preferred.
+- Target URL shape: `https://opencode.2p1.dev`, `https://sync.2p1.dev`, and future `https://<service>.2p1.dev` names.
+- Publish Cloudflare DNS-only records, either per-service or wildcard, pointing to the primary server's Tailscale IP.
+- Use Caddy with the Cloudflare DNS provider module to obtain certificates through DNS-01 challenges.
+- Keep upstream services bound to localhost-only ports and reverse proxy from Caddy by hostname.
+- Avoid path-based routing because app assets, redirects, cookies, WebSockets, and SPA routing often assume `/`.
+- Avoid `service.machine.tailnet.ts.net` as the primary plan because Tailscale-managed certificates do not appear to support arbitrary subdomains below a machine MagicDNS name.
+- Keep explicit external ports on `machine.tailnet.ts.net` only as a fallback.
+- Use Google Cloud Secret Manager as the source of truth for Cloudflare API credentials because GCP and ADC are core dependencies on managed Linux installs.
+- Materialize secrets into per-service env files for runtime use rather than making each app talk to Secret Manager directly.
+- For Caddy, materialize the Cloudflare DNS token to a root-owned env file such as `/etc/caddy/cloudflare.env`, load it with a systemd `EnvironmentFile=`, and reference the value from the Caddyfile.
+- Prefer per-service env files over one global secrets file so each service receives only the secrets it needs.
+- For non-service apps, prefer app-native auth or config. Use `direnv`/ignored project env files for project-local secrets, and use the same Secret Manager materialization pattern only when a CLI or user service needs a reusable local secret file.
 
 ## Safe Verification
 
